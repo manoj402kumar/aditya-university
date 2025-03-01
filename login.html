@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Education Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        :where([class^="ri-"])::before {
+            content: "\f3c2";
+        }
+
+        .login-card {
+            transition: all 0.3s ease;
+        }
+
+        .login-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .form-container {
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#6366F1'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                }
+            }
+        };
+
+        // Show the login form based on the role clicked
+        function showLoginForm(role) {
+            document.querySelectorAll('.form-container').forEach(form => form.classList.remove('active'));
+            document.getElementById(role + 'Form').classList.add('active');
+        }
+
+        // Hide the login form
+        function hideLoginForm() {
+            document.querySelectorAll('.form-container').forEach(form => form.classList.remove('active'));
+        }
+
+        // Toggle password visibility
+        function togglePassword(button) {
+            const passwordInput = button.previousElementSibling;
+            const type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
+            button.querySelector('i').classList.toggle('ri-eye-line');
+            button.querySelector('i').classList.toggle('ri-eye-off-line');
+        }
+
+        // Handle login form submission
+        // Handle login form submission
+function handleLogin(event, type) {
+    event.preventDefault();  // Prevent form from submitting the traditional way
+
+    const userId = document.querySelector(`#${type}Form input[type="text"]`).value;  // Get user input
+    const password = document.querySelector(`#${type}Form input[type="password"]`).value;  // Get password input
+
+    let valid = false;
+    let id = '';
+
+    // Check credentials for each type
+    if (type === 'student' && userId === '23404-CM-196' && password === 'manoj123') {
+        valid = true;
+        id = '23404-CM-196';
+    } else if (type === 'parent' && userId === '23404-CM-196' && password === 'manoj123') {
+        valid = true;
+        id = '23404-CM-196';
+    } else if (type === 'staff' && userId === '23404-CM-196' && password === 'kumar123') {
+        valid = true;
+        id = '23404-CM-196';
+    }
+
+    // Check if the login is valid
+    if (valid) {
+        // Optionally, store the user ID in localStorage/sessionStorage
+        sessionStorage.setItem('userId', id);
+
+        // Redirect to index.html (or another page if needed)
+        window.location.href = "port.html";
+    } else {
+        // Show error notification if credentials are incorrect
+        showNotification('Invalid ID or password. Please try again.');
+    }
+}
+
+// Sample error notification function
+function showNotification(message) {
+    alert(message); // Replace this with actual notification logic if needed
+}
+
+    </script>
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 min-h-screen flex flex-col">
+        <header class="text-center mb-12">
+            <h1 class="font-['Pacifico'] text-4xl text-primary mb-4">Aditya University</h1>
+            <p class="text-gray-600 text-lg">Welcome to Our Education Portal</p>
+            <p class="text-gray-500 mt-2">Please select your role to continue</p>
+        </header>
+
+        <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12">
+            <div class="login-card bg-white p-8 rounded-lg shadow-lg text-center cursor-pointer" onclick="showLoginForm('student')">
+                <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-primary/10 rounded-full">
+                    <i class="ri-user-3-line text-primary text-2xl"></i>
+                </div>
+                <h2 class="text-xl font-semibold mb-2">Student</h2>
+                <p class="text-gray-500 mb-4">Access your learning portal</p>
+                <button class="bg-primary text-white px-6 py-2 !rounded-button hover:bg-primary/90">Login as Student</button>
+            </div>
+            <div class="login-card bg-white p-8 rounded-lg shadow-lg text-center cursor-pointer" onclick="showLoginForm('parent')">
+                <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-primary/10 rounded-full">
+                    <i class="ri-team-line text-primary text-2xl"></i>
+                </div>
+                <h2 class="text-xl font-semibold mb-2">Parent</h2>
+                <p class="text-gray-500 mb-4">Monitor your child's progress</p>
+                <button class="bg-primary text-white px-6 py-2 !rounded-button hover:bg-primary/90">Login as Parent</button>
+            </div>
+            <div class="login-card bg-white p-8 rounded-lg shadow-lg text-center cursor-pointer" onclick="showLoginForm('staff')">
+                <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-primary/10 rounded-full">
+                    <i class="ri-briefcase-4-line text-primary text-2xl"></i>
+                </div>
+                <h2 class="text-xl font-semibold mb-2">Staff</h2>
+                <p class="text-gray-500 mb-4">Access administrative tools</p>
+                <button class="bg-primary text-white px-6 py-2 !rounded-button hover:bg-primary/90">Login as Staff</button>
+            </div>
+        </div>
+
+        <div id="loginForms" class="max-w-md mx-auto w-full">
+            <!-- Student Login Form -->
+            <div id="studentForm" class="form-container bg-white p-8 rounded-lg shadow-lg">
+                <div class="flex items-center mb-6">
+                    <button onclick="hideLoginForm()" class="text-gray-500 hover:text-gray-700">
+                        <i class="ri-arrow-left-line text-xl"></i>
+                    </button>
+                    <h2 class="text-2xl font-semibold ml-4">Student Login</h2>
+                </div>
+                <form onsubmit="handleLogin(event, 'student')">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-medium mb-2">Student ID</label>
+                        <div class="relative">
+                            <i class="ri-user-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" required name="userId" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="Enter your student ID">
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-medium mb-2">Password</label>
+                        <div class="relative">
+                            <i class="ri-lock-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                            <input type="password" required name="password" class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="Enter your password">
+                            <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600" onclick="togglePassword(this)">
+                                <i class="ri-eye-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between mb-6">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="w-4 h-4 text-primary">
+                            <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="w-full bg-primary text-white py-2 !rounded-button hover:bg-primary/90">Sign In</button>
+                </form>
+            </div>
+
+            <!-- Parent Login Form -->
+            <div id="parentForm" class="form-container bg-white p-8 rounded-lg shadow-lg">
+                <div class="flex items-center mb-6">
+                    <button onclick="hideLoginForm()" class="text-gray-500 hover:text-gray-700">
+                        <i class="ri-arrow-left-line text-xl"></i>
+                    </button>
+                    <h2 class="text-2xl font-semibold ml-4">Parent Login</h2>
+                </div>
+                <form onsubmit="handleLogin(event, 'parent')">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-medium mb-2">User ID</label>
+                        <div class="relative">
+                            <i class="ri-mail-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" required name="userId" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="Enter your user ID">
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-medium mb-2">Password</label>
+                        <div class="relative">
+                            <i class="ri-lock-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                            <input type="password" required name="password" class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="Enter your password">
+                            <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600" onclick="togglePassword(this)">
+                                <i class="ri-eye-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between mb-6">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="w-4 h-4 text-primary">
+                            <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="w-full bg-primary text-white py-2 !rounded-button hover:bg-primary/90">Sign In</button>
+                </form>
+            </div>
+
+            <!-- Staff Login Form -->
+            <div id="staffForm" class="form-container bg-white p-8 rounded-lg shadow-lg">
+                <div class="flex items-center mb-6">
+                    <button onclick="hideLoginForm()" class="text-gray-500 hover:text-gray-700">
+                        <i class="ri-arrow-left-line text-xl"></i>
+                    </button>
+                    <h2 class="text-2xl font-semibold ml-4">Staff Login</h2>
+                </div>
+                <form onsubmit="handleLogin(event, 'staff')">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-medium mb-2">Staff ID</label>
+                        <div class="relative">
+                            <i class="ri-user-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" required name="userId" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="Enter your staff ID">
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-medium mb-2">Password</label>
+                        <div class="relative">
+                            <i class="ri-lock-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                            <input type="password" required name="password" class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="Enter your password">
+                            <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600" onclick="togglePassword(this)">
+                                <i class="ri-eye-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between mb-6">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="w-4 h-4 text-primary">
+                            <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="w-full bg-primary text-white py-2 !rounded-button hover:bg-primary/90">Sign In</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

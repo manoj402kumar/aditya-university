@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academic Calendar</title>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+        }
+        .search-bar {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .results {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .holiday-table, .exam-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        .holiday-table th, .exam-table th, .holiday-table td, .exam-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #34495e;
+            color: white;
+        }
+        .exam-highlight {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .no-result {
+            color: red;
+        }
+    h1 {
+      text-align: center;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+    .exam {
+      color: red;
+      font-weight: bold;
+    }
+    .holiday {
+      color: green;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    input {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Academic Calendar Search</h1>
+    <input type="text" id="dateInput" placeholder="Enter a date (e.g., March 20, 2025)" />
+    <button onclick="searchDate()">Search</button>
+
+    <div id="result"></div>
+  </div>
+      <h2>Upcoming Holidays</h2>
+    <table class="holiday-table">
+        <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Duration</th>
+        </tr>
+        <tr>
+            <td>March 15, 2025</td>
+            <td>Spring Break</td>
+            <td>1 week</td>
+        </tr>
+        <tr>
+            <td>April 5-6, 2025</td>
+            <td>Easter Holiday</td>
+            <td>2 days</td>
+        </tr>
+        <tr>
+            <td>May 27, 2025</td>
+            <td>Memorial Day</td>
+            <td>1 day</td>
+        </tr>
+        <tr>
+            <td>July 4, 2025</td>
+            <td>Independence Day</td>
+            <td>1 day</td>
+        </tr>
+        <tr>
+            <td>September 2, 2025</td>
+            <td>Labor Day</td>
+            <td>1 day</td>
+        </tr>
+    </table>
+
+    <h2>Upcoming Examinations</h2>
+    <table class="exam-table">
+        <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Duration</th>
+        </tr>
+        <tr>
+            <td>March 20, 2025</td>
+            <td>Mid-1</td>
+            <td>1:30 hours</td>
+        </tr>
+        <tr>
+            <td>May 16, 2025</td>
+            <td>Mid-2</td>
+            <td>1:30 hours</td>
+        </tr>
+        <tr>
+            <td>July 28, 2025</td>
+            <td>Mid-3</td>
+            <td>1:30 hours</td>
+        </tr>
+        <tr>
+            <td>August 1, 2025</td>
+            <td>pre-Final</td>
+            <td>3 hours</td>
+        </tr>
+        <tr>
+            <td>August 20, 2025</td>
+            <td>Final</td>
+            <td>3 hours</td>
+        </tr>
+    </table>
+</div>
+
+
+  <script>
+    const holidays = [
+      { date: "March 15, 2025", type: "Spring Break", duration: "1 week" },
+      { date: "April 5-6, 2025", type: "Easter Holiday", duration: "2 days" },
+      { date: "May 27, 2025", type: "Memorial Day", duration: "1 day" },
+      { date: "July 4, 2025", type: "Independence Day", duration: "1 day" },
+      { date: "September 2, 2025", type: "Labor Day", duration: "1 day" }
+    ];
+
+    const exams = [
+      { date: "March 20, 2025", type: "Mid-1", duration: "1:30 hours" },
+      { date: "May 16, 2025", type: "Mid-2", duration: "1:30 hours" },
+      { date: "July 28, 2025", type: "Mid-3", duration: "1:30 hours" },
+      { date: "August 1, 2025", type: "pre-Final", duration: "3 hours" },
+      { date: "August 20, 2025", type: "final", duration: "3 hours" }
+    ];
+
+    function searchDate() {
+      const searchQuery = document.getElementById('dateInput').value;
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = '';
+
+      const foundHoliday = holidays.find(holiday => holiday.date === searchQuery);
+      const foundExam = exams.find(exam => exam.date === searchQuery);
+
+      if (foundHoliday) {
+        resultDiv.innerHTML = `<div class="holiday"><strong>Holiday:</strong> ${foundHoliday.type} - ${foundHoliday.duration}</div>`;
+      } else if (foundExam) {
+        resultDiv.innerHTML = `<div class="exam"><strong>Exam:</strong> ${foundExam.type} - Duration: ${foundExam.duration}</div>`;
+      } else {
+        resultDiv.innerHTML = "No events found for this date.";
+      }
+    }
+  </script>
+
+</body>
+</html>

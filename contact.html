@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        .input-style {
+            @apply border border-gray-200 rounded p-3 w-full focus:outline-none focus:border-primary;
+        }
+        .contact-card {
+            @apply flex items-center p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow;
+        }
+        .icon-wrapper {
+            @apply w-12 h-12 flex items-center justify-center rounded-full bg-primary/10 text-primary mr-4;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#6366F1'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+    <main class="container mx-auto px-4 py-12">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">contact information</h1>
+            <p class="text-gray-600 max-w-2xl mx-auto">Have questions about our services? Want to partner with us? Or just want to say hello? We'd love to hear from you. Fill out the form below and we'll get back to you as soon as possible.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+            <div class="bg-white rounded-lg shadow-sm p-8">
+                <form id="contactForm" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2" for="name">Full Name *</label>
+                        <input type="text" id="name" required class="input-style" placeholder="John Smith">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2" for="email">Email Address *</label>
+                        <input type="email" id="email" required class="input-style" placeholder="john@gmal.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2" for="phone">Phone Number (Optional)</label>
+                        <input type="tel" id="phone" class="input-style" placeholder="+91 1234567890">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2" for="subject">Subject *</label>
+                        <div class="relative">
+                            <button id="subjectBtn" type="button" class="input-style text-left flex items-center justify-between">
+                                <span id="selectedSubject">Select a subject</span>
+                                <i class="ri-arrow-down-s-line text-gray-400"></i>
+                            </button>
+                            <div id="subjectDropdown" class="hidden absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg">
+                                <div class="py-1">
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" data-value="General Inquiry">General Inquiry</a>
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" data-value="Partnership Opportunity">Partnership Opportunity</a>
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" data-value="Technical Support">Technical Support</a>
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" data-value="Feedback">Feedback</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2" for="message">Message *</label>
+                        <textarea id="message" required rows="5" class="input-style resize-none" placeholder="Your message here..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-primary text-white py-3 px-6 rounded-button hover:bg-primary/90 transition-colors">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+
+            <div class="space-y-6">
+                <div class="contact-card">
+                    <div class="icon-wrapper">
+                        <i class="ri-map-pin-line text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-900 mb-1">Visit Us</h3>
+                        <p class="text-gray-600">Surampalem, Peddapuram-533437
+                            East Godavari District
+                            Andhra Pradesh, India</p>
+                    </div>
+                </div>
+
+                <div class="contact-card">
+                    <div class="icon-wrapper">
+                        <i class="ri-mail-line text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-900 mb-1">Email Us</h3>
+                        <p class="text-gray-600">adtya@college.com</p>
+                    </div>
+                </div>
+
+                <div class="contact-card">
+                    <div class="icon-wrapper">
+                        <i class="ri-phone-line text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-900 mb-1">Call Us</h3>
+                        <p class="text-gray-600">+91 8309497402</p>
+                    </div>
+                </div>
+
+                <div class="contact-card">
+                    <div class="icon-wrapper">
+                        <i class="ri-time-line text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-900 mb-1">college Hours</h3>
+                        <p class="text-gray-600">Monday - Friday: 9:30 AM - 4:10 PM </p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <h3 class="font-medium text-gray-900 mb-4">Connect With Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+                            <i class="ri-twitter-fill"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+                            <i class="ri-linkedin-fill"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+                            <i class="ri-facebook-fill"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+                            <i class="ri-instagram-fill"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast" class="fixed bottom-4 right-4 transform translate-y-full opacity-0 transition-all duration-300 bg-white rounded-lg shadow-lg p-4 flex items-center">
+        <i class="ri-checkbox-circle-line text-green-500 text-xl mr-2"></i>
+        <span id="toastMessage" class="text-gray-700"></span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const subjectBtn = document.getElementById('subjectBtn');
+            const subjectDropdown = document.getElementById('subjectDropdown');
+            const selectedSubject = document.getElementById('selectedSubject');
+            const contactForm = document.getElementById('contactForm');
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+
+            subjectBtn.addEventListener('click', () => {
+                subjectDropdown.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!subjectBtn.contains(e.target) && !subjectDropdown.contains(e.target)) {
+                    subjectDropdown.classList.add('hidden');
+                }
+            });
+
+            subjectDropdown.querySelectorAll('a').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    selectedSubject.textContent = e.target.dataset.value;
+                    subjectDropdown.classList.add('hidden');
+                });
+            });
+
+            function showToast(message) {
+                toastMessage.textContent = message;
+                toast.classList.remove('translate-y-full', 'opacity-0');
+                setTimeout(() => {
+                    toast.classList.add('translate-y-full', 'opacity-0');
+                }, 3000);
+            }
+
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                showToast('Message sent successfully! We\'ll get back to you soon.');
+                contactForm.reset();
+                selectedSubject.textContent = 'Select a subject';
+            });
+        });
+    </script>
+</body>
+</html>

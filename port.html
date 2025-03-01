@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Portal</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#4F46E5',
+secondary: '#9333EA'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.dropdown {
+display: none;
+position: absolute;
+right: 0;
+top: 100%;
+background: white;
+border: 1px solid #e5e7eb;
+border-radius: 8px;
+box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+z-index: 50;
+}
+.dropdown.show {
+display: block;
+}
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+<div class="flex min-h-screen">
+<aside class="w-64 bg-white shadow-lg fixed h-full">
+<nav class="p-4 space-y-2">
+<a href="#" class="flex items-center space-x-3 p-3 rounded-button bg-primary bg-opacity-10 text-primary">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-dashboard-line"></i>
+</div>
+<span>Dashboard</span>
+</a>
+<a href="#" class="flex items-center space-x-3 p-3 rounded-button hover:bg-gray-100" onclick="showCourseRegistration()">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-book-open-line"></i>
+</div>
+<span>Course Registration</span>
+</a>
+<div id="courseRegistrationModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+<div class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3/4 max-h-[80vh] overflow-y-auto bg-white rounded-lg shadow-xl">
+<div class="p-6">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-2xl font-semibold">Course Registration</h2>
+<button onclick="closeCourseRegistration()" class="text-gray-500 hover:text-gray-700">
+<i class="ri-close-line text-2xl"></i>
+</button>
+</div>
+<div class="mb-6">
+<div class="flex items-center space-x-4 mb-4">
+<div class="relative flex-1">
+<input type="text" id="courseSearch" placeholder="Search courses..." class="w-full pl-10 pr-4 py-2 rounded-button border-none bg-gray-100">
+<div class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 flex items-center justify-center">
+<i class="ri-search-line text-gray-400"></i>
+</div>
+</div>
+<div class="relative">
+<button onclick="toggleFilter()" class="px-4 py-2 bg-gray-100 rounded-button flex items-center space-x-2">
+<i class="ri-filter-3-line"></i>
+<span>Filter</span>
+</button>
+<div id="filterDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border p-4">
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium mb-2">Department</label>
+<select class="w-full p-2 rounded-button bg-gray-100 border-none">
+<option>All Departments</option>
+<option>web Technology</option>
+<option>DBMS</option>
+<option>java</option>
+<option>python</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium mb-2">Level</label>
+<select class="w-full p-2 rounded-button bg-gray-100 border-none">
+<option>All Levels</option>
+<option>100 Level</option>
+<option>200 Level</option>
+<option>300 Level</option>
+<option>400 Level</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="bg-gray-50 p-4 rounded-lg">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-medium">CS 301: Advanced Algorithms</h3>
+<p class="text-sm text-gray-500">Prof. Sarah Johnson • MWF 10:00 AM - 11:20 AM</p>
+<div class="flex items-center space-x-4 mt-2">
+<span class="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">3 Credits</span>
+<span class="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">25 Seats Available</span>
+</div>
+</div>
+<button onclick="registerCourse(this)" class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary-dark whitespace-nowrap">Register</button>
+</div>
+</div>
+<div class="bg-gray-50 p-4 rounded-lg">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-medium">MATH 201: Linear Algebra</h3>
+<p class="text-sm text-gray-500">Prof. Michael Chen • TTH 2:00 PM - 3:20 PM</p>
+<div class="flex items-center space-x-4 mt-2">
+<span class="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">3 Credits</span>
+<span class="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">15 Seats Available</span>
+</div>
+</div>
+<button onclick="registerCourse(this)" class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary-dark whitespace-nowrap">Register</button>
+</div>
+</div>
+<div class="bg-gray-50 p-4 rounded-lg">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-medium">PHYS 202: Modern Physics</h3>
+<p class="text-sm text-gray-500">Prof. David Wilson • MWF 1:00 PM - 2:20 PM</p>
+<div class="flex items-center space-x-4 mt-2">
+<span class="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">4 Credits</span>
+<span class="text-sm bg-red-100 text-red-800 px-2 py-1 rounded">Waitlist</span>
+</div>
+</div>
+<button onclick="registerCourse(this)" class="px-4 py-2 bg-gray-300 text-gray-600 rounded-button cursor-not-allowed whitespace-nowrap">Join Waitlist</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<a href="#" class="flex items-center space-x-3 p-3 rounded-button hover:bg-gray-100" onclick="showAcademicRecords()">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-graduation-cap-line"></i>
+</div>
+<span>Academic Records</span>
+</a>
+<a href="#" class="flex items-center space-x-3 p-3 rounded-button hover:bg-gray-100" onclick="showFinancialServices()">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-money-dollar-circle-line"></i>
+</div>
+<span>Financial Services</span>
+</a>
+<a href="#" class="flex items-center space-x-3 p-3 rounded-button hover:bg-gray-100" onclick="showCampusServices()">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-building-2-line"></i>
+</div>
+<span>Campus Services</span>
+</a>
+<a href="#" class="flex items-center space-x-3 p-3 rounded-button hover:bg-gray-100" onclick="showSupport()">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-customer-service-line"></i>
+</div>
+<span>Support</span>
+</a>
+<div id="academicRecordsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+<div class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3/4 max-h-[80vh] overflow-y-auto bg-white rounded-lg shadow-xl">
+<div class="p-6">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-2xl font-semibold">Academic Records</h2>
+<button onclick="closeModal('academicRecordsModal')" class="text-gray-500 hover:text-gray-700">
+<i class="ri-close-line text-2xl"></i>
+</button>
+</div>
+<div class="space-y-6">
+<div class="bg-gray-50 p-4 rounded-lg">
+<h3 class="font-medium mb-4">Current Semester Grades</h3>
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<span>Advanced Algorithms</span>
+<span class="font-medium">A</span>
+</div>
+<div class="flex justify-between items-center">
+<span>Linear Algebra</span>
+<span class="font-medium">A-</span>
+</div>
+<div class="flex justify-between items-center">
+<span>Modern Physics</span>
+<span class="font-medium">B+</span>
+</div>
+</div>
+</div>
+<div class="bg-gray-50 p-4 rounded-lg">
+<h3 class="font-medium mb-4">Transcript</h3>
+<button class="px-4 py-2 bg-primary text-white rounded-button">Download Official Transcript</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="financialServicesModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+<div class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3/4 max-h-[80vh] overflow-y-auto bg-white rounded-lg shadow-xl">
+<div class="p-6">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-2xl font-semibold">Financial Services</h2>
+<button onclick="closeModal('financialServicesModal')" class="text-gray-500 hover:text-gray-700">
+<i class="ri-close-line text-2xl"></i>
+</button>
+</div>
+<div class="space-y-6">
+<div class="bg-gray-50 p-4 rounded-lg">
+<h3 class="font-medium mb-4">Current Balance</h3>
+<div class="text-2xl font-semibold text-primary">₹2,500.00</div>
+<button class="mt-4 px-4 py-2 bg-primary text-white rounded-button">Make Payment</button>
+</div>
+<div class="bg-gray-50 p-4 rounded-lg">
+<h3 class="font-medium mb-4">Payment History</h3>
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<span>Tuition Payment</span>
+<span class="font-medium">₹5,000.00</span>
+</div>
+<div class="flex justify-between items-center">
+<span>Lab Fees</span>
+<span class="font-medium">₹250.00</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="campusServicesModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+<div class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3/4 max-h-[80vh] overflow-y-auto bg-white rounded-lg shadow-xl">
+<div class="p-6">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-2xl font-semibold">Campus Services</h2>
+<button onclick="closeModal('campusServicesModal')" class="text-gray-500 hover:text-gray-700">
+<i class="ri-close-line text-2xl"></i>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-gray-50 p-4 rounded-lg">
+<div class="w-10 h-10 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mb-4">
+<i class="ri-restaurant-line text-primary"></i>
+</div>
+<h3 class="font-medium mb-2">Dining Services</h3>
+<p class="text-sm text-gray-600 mb-4">Check meal plan balance and dining locations</p>
+<button class="px-4 py-2 bg-primary text-white rounded-button">View Details</button>
+</div>
+<div class="bg-gray-50 p-4 rounded-lg">
+<div class="w-10 h-10 flex items-center justify-center bg-secondary bg-opacity-10 rounded-full mb-4">
+<i class="ri-home-4-line text-secondary"></i>
+</div>
+<h3 class="font-medium mb-2">Housing</h3>
+<p class="text-sm text-gray-600 mb-4">Access housing portal and maintenance requests</p>
+<button class="px-4 py-2 bg-primary text-white rounded-button">View Details</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="supportModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+<div class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3/4 max-h-[80vh] overflow-y-auto bg-white rounded-lg shadow-xl">
+<div class="p-6">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-2xl font-semibold">Support</h2>
+<button onclick="closeModal('supportModal')" class="text-gray-500 hover:text-gray-700">
+<i class="ri-close-line text-2xl"></i>
+</button>
+</div>
+<div class="space-y-6">
+<div class="bg-gray-50 p-4 rounded-lg">
+<h3 class="font-medium mb-4">Contact Support</h3>
+<form class="space-y-4">
+<div>
+<label class="block text-sm font-medium mb-2">Subject</label>
+<input type="text" class="w-full p-2 rounded-button border-none bg-gray-100" placeholder="Enter subject">
+</div>
+<div>
+<label class="block text-sm font-medium mb-2">Message</label>
+<textarea class="w-full p-2 rounded-button border-none bg-gray-100 h-32" placeholder="Enter your message"></textarea>
+</div>
+<button type="submit" class="px-4 py-2 bg-primary text-white rounded-button">Submit</button>
+</form>
+</div>
+<div class="bg-gray-50 p-4 rounded-lg">
+<h3 class="font-medium mb-4">FAQs</h3>
+<div class="space-y-3">
+<div class="cursor-pointer" onclick="toggleFAQ(this)">
+<div class="flex justify-between items-center">
+<span>How do I reset my password?</span>
+<i class="ri-arrow-down-s-line"></i>
+</div>
+<div class="hidden mt-2 text-sm text-gray-600">
+Visit the account settings page and click on "Reset Password" to begin the process.
+</div>
+</div>
+<div class="cursor-pointer" onclick="toggleFAQ(this)">
+<div class="flex justify-between items-center">
+<span>Where can I find my student ID?</span>
+<i class="ri-arrow-down-s-line"></i>
+</div>
+<div class="hidden mt-2 text-sm text-gray-600">
+Your student ID can be found on your student card or by logging into the student portal.
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</aside>
+<main class="flex-1 ml-64">
+<header class="bg-white shadow-sm">
+<div class="flex items-center justify-between px-8 py-4">
+<div class="flex items-center space-x-4">
+<div class="relative">
+<input type="text" placeholder="Search..." class="pl-10 pr-4 py-2 rounded-button border-none bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary">
+<div class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 flex items-center justify-center">
+<i class="ri-search-line text-gray-400"></i>
+</div>
+</div>
+</div>
+<div class="flex items-center space-x-4">
+<button class="relative w-8 h-8 flex items-center justify-center">
+<i class="ri-notification-3-line"></i>
+<span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+</button>
+<div class="relative">
+<button onclick="toggleDropdown()" class="flex items-center space-x-3">
+<img src="https://public.readdy.ai/ai/img_res/302824a56d1c7354942337f94fb308c1.jpg" class="w-8 h-8 rounded-full object-cover">
+<span>Emily Thompson</span>
+<div class="w-4 h-4 flex items-center justify-center">
+<i class="ri-arrow-down-s-line"></i>
+</div>
+</button>
+<div id="userDropdown" class="dropdown w-48">
+<div class="py-2">
+<a href="#" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+<a href="#" class="block px-4 py-2 hover:bg-gray-100">Settings</a>
+<a href="#" class="block px-4 py-2 hover:bg-gray-100">Sign out</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="px-8 py-2 border-t">
+<nav class="flex space-x-2 text-sm text-gray-500">
+<a href="#" class="hover:text-primary">Home</a>
+<span>/</span>
+<span class="text-gray-900">Dashboard</span>
+</nav>
+</div>
+</header>
+<div class="p-8">
+<div class="mb-8">
+<h1 class="text-2xl font-semibold mb-2">Welcome back, Emily!</h1>
+<p class="text-gray-600">Here's what's happening with your academic journey.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="w-10 h-10 flex items-center justify-center bg-primary bg-opacity-10 rounded-full">
+<i class="ri-book-mark-line text-primary"></i>
+</div>
+<span class="text-sm text-gray-500">Current Semester</span>
+</div>
+<div class="text-2xl font-semibold mb-1">15 Credits</div>
+<div class="text-sm text-gray-500">5 Courses Enrolled</div>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="w-10 h-10 flex items-center justify-center bg-secondary bg-opacity-10 rounded-full">
+<i class="ri-calendar-check-line text-secondary"></i>
+</div>
+<span class="text-sm text-gray-500">Attendance</span>
+</div>
+<div class="text-2xl font-semibold mb-1">95%</div>
+<div class="text-sm text-gray-500">Last 30 Days</div>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="w-10 h-10 flex items-center justify-center bg-green-500 bg-opacity-10 rounded-full">
+<i class="ri-funds-line text-green-500"></i>
+</div>
+<span class="text-sm text-gray-500">GPA</span>
+</div>
+<div class="text-2xl font-semibold mb-1">3.85</div>
+<div class="text-sm text-gray-500">Cumulative</div>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="w-10 h-10 flex items-center justify-center bg-yellow-500 bg-opacity-10 rounded-full">
+<i class="ri-time-line text-yellow-500"></i>
+</div>
+<span class="text-sm text-gray-500">Due Soon</span>
+</div>
+<div class="text-2xl font-semibold mb-1">4 Tasks</div>
+<div class="text-sm text-gray-500">Next 7 Days</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2">
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-lg font-semibold">Upcoming Deadlines</h2>
+<button class="text-primary hover:text-primary-dark">View All</button>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 flex items-center justify-center bg-primary bg-opacity-10 rounded-full">
+<i class="ri-file-text-line text-primary"></i>
+</div>
+<div>
+<h3 class="font-medium">Final Project: Data Visualization</h3>
+<p class="text-sm text-gray-500">CS 401 - Advanced Data Analytics</p>
+<div class="flex items-center mt-2 space-x-2">
+<span class="px-2 py-1 text-xs bg-red-100 text-red-600 rounded">High Priority</span>
+<span class="px-2 py-1 text-xs bg-blue-100 text-blue-600 rounded">Team Project</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-sm font-medium text-red-500">Due Tomorrow</div>
+<div class="text-sm text-gray-500">11:59 PM</div>
+<div class="mt-2">
+<div class="w-32 bg-gray-200 rounded-full h-1.5">
+<div class="bg-primary rounded-full h-1.5" style="width: 75%"></div>
+</div>
+<div class="text-xs text-gray-500 mt-1">75% Complete</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 flex items-center justify-center bg-secondary bg-opacity-10 rounded-full">
+<i class="ri-presentation-line text-secondary"></i>
+</div>
+<div>
+<h3 class="font-medium">Research Presentation: AI Ethics</h3>
+<p class="text-sm text-gray-500">PHIL 305 - Technology Ethics</p>
+<div class="flex items-center mt-2 space-x-2">
+<span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-600 rounded">Medium Priority</span>
+<span class="px-2 py-1 text-xs bg-purple-100 text-purple-600 rounded">Individual</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-sm font-medium">March 5, 2025</div>
+<div class="text-sm text-gray-500">2:30 PM</div>
+<div class="mt-2">
+<div class="w-32 bg-gray-200 rounded-full h-1.5">
+<div class="bg-secondary rounded-full h-1.5" style="width: 40%"></div>
+</div>
+<div class="text-xs text-gray-500 mt-1">40% Complete</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 flex items-center justify-center bg-green-500 bg-opacity-10 rounded-full">
+<i class="ri-article-line text-green-500"></i>
+</div>
+<div>
+<h3 class="font-medium">Literature Review: Modern Poetry</h3>
+<p class="text-sm text-gray-500">ENG 302 - Contemporary Literature</p>
+<div class="flex items-center mt-2 space-x-2">
+<span class="px-2 py-1 text-xs bg-green-100 text-green-600 rounded">Low Priority</span>
+<span class="px-2 py-1 text-xs bg-purple-100 text-purple-600 rounded">Individual</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-sm font-medium">March 7, 2025</div>
+<div class="text-sm text-gray-500">3:00 PM</div>
+<div class="mt-2">
+<div class="w-32 bg-gray-200 rounded-full h-1.5">
+<div class="bg-green-500 rounded-full h-1.5" style="width: 90%"></div>
+</div>
+<div class="text-xs text-gray-500 mt-1">90% Complete</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="space-y-6">
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<h2 class="text-lg font-semibold mb-4">Announcements</h2>
+<div class="space-y-4">
+<div class="border-l-4 border-primary pl-4">
+<div class="text-sm text-gray-500 mb-1">March 1, 2025</div>
+<h3 class="font-medium mb-1">Spring Break Schedule</h3>
+<p class="text-sm text-gray-600">Campus will be closed from March 15-22 for spring break. All facilities will resume normal operations on March 23.</p>
+</div>
+<div class="border-l-4 border-yellow-500 pl-4">
+<div class="text-sm text-gray-500 mb-1">February 28, 2025</div>
+<h3 class="font-medium mb-1">Course Registration</h3>
+<p class="text-sm text-gray-600">Fall 2025 course registration opens on April 1. Meet with your advisor to plan your schedule.</p>
+</div>
+<div class="border-l-4 border-green-500 pl-4">
+<div class="text-sm text-gray-500 mb-1">February 27, 2025</div>
+<h3 class="font-medium mb-1">Career Fair</h3>
+<p class="text-sm text-gray-600">Annual Spring Career Fair will be held on March 10 in the Student Center. Over 50 companies will be present.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script>
+function toggleDropdown() {
+const dropdown = document.getElementById('userDropdown');
+dropdown.classList.toggle('show');
+}
+function showAcademicRecords() {
+document.getElementById('academicRecordsModal').classList.remove('hidden');
+}
+function showFinancialServices() {
+document.getElementById('financialServicesModal').classList.remove('hidden');
+}
+function showCampusServices() {
+document.getElementById('campusServicesModal').classList.remove('hidden');
+}
+function showSupport() {
+document.getElementById('supportModal').classList.remove('hidden');
+}
+function closeModal(modalId) {
+document.getElementById(modalId).classList.add('hidden');
+}
+function toggleFAQ(element) {
+const answer = element.querySelector('div:last-child');
+const arrow = element.querySelector('i');
+answer.classList.toggle('hidden');
+arrow.style.transform = answer.classList.contains('hidden') ? '' : 'rotate(180deg)';
+}
+function showCourseRegistration() {
+document.getElementById('courseRegistrationModal').classList.remove('hidden');
+}
+function closeCourseRegistration() {
+document.getElementById('courseRegistrationModal').classList.add('hidden');
+}
+function toggleFilter() {
+const filterDropdown = document.getElementById('filterDropdown');
+filterDropdown.classList.toggle('hidden');
+}
+function registerCourse(button) {
+const courseInfo = button.parentElement.querySelector('h3').textContent;
+const confirmationModal = document.createElement('div');
+confirmationModal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+confirmationModal.innerHTML = `
+<div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4">
+<h3 class="text-lg font-semibold mb-4">Confirm Registration</h3>
+<p class="mb-6">Are you sure you want to register for ${courseInfo}?</p>
+<div class="flex justify-end space-x-4">
+<button onclick="this.parentElement.parentElement.parentElement.remove()" class="px-4 py-2 text-gray-600 hover:text-gray-800 rounded-button">Cancel</button>
+<button onclick="confirmRegistration(this)" class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary-dark">Confirm</button>
+</div>
+</div>
+`;
+document.body.appendChild(confirmationModal);
+}
+function confirmRegistration(button) {
+const modal = button.parentElement.parentElement.parentElement;
+const successModal = document.createElement('div');
+successModal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+successModal.innerHTML = `
+<div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4">
+<div class="text-center">
+<div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+<i class="ri-check-line text-3xl text-green-500"></i>
+</div>
+<h3 class="text-lg font-semibold mb-2">Registration Successful!</h3>
+<p class="text-gray-600 mb-6">You have successfully registered for the course.</p>
+<button onclick="this.parentElement.parentElement.parentElement.remove()" class="px-6 py-2 bg-primary text-white rounded-button hover:bg-primary-dark">Done</button>
+</div>
+</div>
+`;
+modal.remove();
+document.body.appendChild(successModal);
+}
+window.onclick = function(event) {
+if (!event.target.matches('button')) {
+const dropdowns = document.getElementsByClassName('dropdown');
+for (let dropdown of dropdowns) {
+if (dropdown.classList.contains('show')) {
+dropdown.classList.remove('show');
+}
+}
+}
+if (event.target.classList.contains('fixed')) {
+event.target.classList.add('hidden');
+}
+}
+</script>
+</body>
+</html>

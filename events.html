@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Events in Asia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#10B981'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        .search-input:focus {
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+        }
+        .event-card {
+            transition: transform 0.2s ease-in-out;
+        }
+        .event-card:hover {
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="text-2xl font-bold text-primary">Events</div>
+                <div class="flex-1 max-w-2xl mx-auto px-8">
+                    <div class="relative">
+                        <input type="text" id="searchInput" class="search-input w-full h-10 pl-10 pr-4 rounded-full border border-gray-200 focus:outline-none text-sm" placeholder="Search events...">
+                        
+                    </div>
+                </div>
+                <button id="themeToggle" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100">
+                    <i class="ri-sun-line text-gray-600"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 class="text-4xl font-bold text-gray-900 mb-12 text-center">Tech Events in Aditya</h1>
+        
+        <div id="eventContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Event cards will be dynamically inserted here -->
+        </div>
+    </main>
+
+    <script>
+        const events = [
+            {
+                name: "Google Developers Day",
+                date: "March , 2025",
+                location: "aditya college of engineering",
+                description: "Join Google's largest developer event in Asia. Experience the latest in AI, Cloud, Android, and Web technologies with hands-on workshops and networking opportunities.",
+                image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjPvYQeMpzDYWCL3FCWYjeQHdDvVJt7STAGyjwowX1KlkH2Oi8vpM-_ZAjXCCkFcjnoHhxuxX_-vuEylY1qqMSnioxfdnD6W0qu4JmK2tCZZWvVwAHn2TquZYFkLyZuaU9Dx-Zq4h9CS8Nk/s1600/Screen+Shot+2017-02-03+at+6.39.28+PM.png"
+            },
+            {
+                name: "FOSSASIA Summit",
+                date: "April , 2025",
+                location: "aditya college of engineering",
+                description: "Asia's leading Open Source conference bringing together developers, tech companies, and open source enthusiasts to share and collaborate on the future of software.",
+                image: "https://live.staticflickr.com/4199/34540636630_271bc0429b_b.jpg"
+            },
+            {
+                name: "RISE Conference",
+                date: "May , 2025",
+                location: "aditya college of engineering",
+                description: "The largest tech conference in Asia, featuring global tech leaders, startups, and investors. Network with industry pioneers and discover the next big innovations.",
+                image: "https://www.fullsail.edu/assets/ext/about/about-fsStories-hero/full-sail-hosts-bsides-orlando-security-conference-on-campus-hero.jpg"
+            },
+            {
+                name: "Web3 Summit",
+                date: "June , 2025",
+                location: "aditya college of engineering",
+                description: "Explore the future of decentralized web with industry experts. Deep dive into blockchain, DeFi, NFTs, and emerging Web3 technologies.",
+                image: "https://images.cointelegraph.com/cdn-cgi/image/format=auto,onerror=redirect,quality=90,width=1434/https://s3.cointelegraph.com/storage/uploads/view/950e6bc853ab6062a704334fb1ff9766.jpg"
+            },
+            {
+                name: "IDEA THON",
+                date: "July , 2025",
+                location: "aditya college of engineering",
+                description: "Experience the cutting-edge consumer technology innovations from across INDIA. Featuring product launches, tech demos, and insights from industry leaders.",
+                image: "https://media.licdn.com/dms/image/v2/D4D22AQEczf7Z7AWghw/feedshare-shrink_800/B4DZVLY4UgHwAg-/0/1740726572903?e=1743638400&v=beta&t=RVh_bBtS4yJifIPb4gE8_mMg5YwgYGosQeH1Ip_o4nw"
+            },
+            {
+                name: "VADA",
+                date: "November",
+                location: "aditya college of engineering",
+                description: "Tech Fest is a global event series focused on technology and innovation, bringing together professionals to network and learn about the latest industry trends. It features talks, workshops, and expos by leading tech companies and experts.",
+                image: "https://aec.edu.in/logos/veda/veda1.jpg"
+            }
+          
+        ];
+
+        function renderEvents(filteredEvents = events) {
+            const container = document.getElementById('eventContainer');
+            container.innerHTML = '';
+            
+            filteredEvents.forEach(event => {
+                const card = document.createElement('div');
+                card.className = 'event-card bg-white rounded-lg shadow-sm overflow-hidden';
+                card.innerHTML = `
+                    <img src="${event.image}" alt="${event.name}" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">${event.name}</h3>
+                        <div class="flex items-center text-gray-600 mb-2">
+                            <i class="ri-calendar-line mr-2"></i>
+                            <span>${event.date}</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 mb-4">
+                            <i class="ri-map-pin-line mr-2"></i>
+                            <span>${event.location}</span>
+                        </div>
+                        <p class="text-gray-600 mb-6">${event.description}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredEvents = events.filter(event => 
+                event.name.toLowerCase().includes(searchTerm) ||
+                event.location.toLowerCase().includes(searchTerm) ||
+                event.description.toLowerCase().includes(searchTerm)
+            );
+            renderEvents(filteredEvents);
+        });
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            const icon = this.querySelector('i');
+            if (icon.classList.contains('ri-sun-line')) {
+                icon.classList.replace('ri-sun-line', 'ri-moon-line');
+                document.body.classList.add('dark');
+            } else {
+                icon.classList.replace('ri-moon-line', 'ri-sun-line');
+                document.body.classList.remove('dark');
+            }
+        });
+
+        renderEvents();
+    </script>
+</body>
+</html>
