@@ -55,18 +55,15 @@
             }
         };
 
-        // Show the login form based on the role clicked
         function showLoginForm(role) {
             document.querySelectorAll('.form-container').forEach(form => form.classList.remove('active'));
             document.getElementById(role + 'Form').classList.add('active');
         }
 
-        // Hide the login form
         function hideLoginForm() {
             document.querySelectorAll('.form-container').forEach(form => form.classList.remove('active'));
         }
 
-        // Toggle password visibility
         function togglePassword(button) {
             const passwordInput = button.previousElementSibling;
             const type = passwordInput.type === 'password' ? 'text' : 'password';
@@ -75,18 +72,15 @@
             button.querySelector('i').classList.toggle('ri-eye-off-line');
         }
 
-        // Handle login form submission
-        // Handle login form submission
+
 function handleLogin(event, type) {
-    event.preventDefault();  // Prevent form from submitting the traditional way
+    event.preventDefault();  
 
-    const userId = document.querySelector(`#${type}Form input[type="text"]`).value;  // Get user input
-    const password = document.querySelector(`#${type}Form input[type="password"]`).value;  // Get password input
-
+    const userId = document.querySelector(`#${type}Form input[type="text"]`).value;  
+    const password = document.querySelector(`#${type}Form input[type="password"]`).value; 
     let valid = false;
     let id = '';
 
-    // Check credentials for each type
     if (type === 'student' && userId === '23404-CM-196' && password === 'manoj123') {
         valid = true;
         id = '23404-CM-196';
@@ -98,22 +92,17 @@ function handleLogin(event, type) {
         id = '23404-CM-196';
     }
 
-    // Check if the login is valid
-    if (valid) {
-        // Optionally, store the user ID in localStorage/sessionStorage
-        sessionStorage.setItem('userId', id);
 
-        // Redirect to index.html (or another page if needed)
+    if (valid) {
+        sessionStorage.setItem('userId', id);
         window.location.href = "port.html";
     } else {
-        // Show error notification if credentials are incorrect
         showNotification('Invalid ID or password. Please try again.');
     }
 }
 
-// Sample error notification function
 function showNotification(message) {
-    alert(message); // Replace this with actual notification logic if needed
+    alert(message);
 }
 
     </script>
@@ -155,7 +144,6 @@ function showNotification(message) {
         </div>
 
         <div id="loginForms" class="max-w-md mx-auto w-full">
-            <!-- Student Login Form -->
             <div id="studentForm" class="form-container bg-white p-8 rounded-lg shadow-lg">
                 <div class="flex items-center mb-6">
                     <button onclick="hideLoginForm()" class="text-gray-500 hover:text-gray-700">
@@ -168,14 +156,14 @@ function showNotification(message) {
                         <label class="block text-gray-700 text-sm font-medium mb-2">Student ID</label>
                         <div class="relative">
                             <i class="ri-user-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input type="text" required name="userId" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="Enter your student ID">
+                            <input type="text" required name="userId" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="Enter your student ID (23404-CM-196)">
                         </div>
                     </div>
                     <div class="mb-6">
                         <label class="block text-gray-700 text-sm font-medium mb-2">Password</label>
                         <div class="relative">
                             <i class="ri-lock-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input type="password" required name="password" class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="Enter your password">
+                            <input type="password" required name="password" class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="Enter your password (manoj123)">
                             <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600" onclick="togglePassword(this)">
                                 <i class="ri-eye-line"></i>
                             </button>
@@ -190,8 +178,6 @@ function showNotification(message) {
                     <button type="submit" class="w-full bg-primary text-white py-2 !rounded-button hover:bg-primary/90">Sign In</button>
                 </form>
             </div>
-
-            <!-- Parent Login Form -->
             <div id="parentForm" class="form-container bg-white p-8 rounded-lg shadow-lg">
                 <div class="flex items-center mb-6">
                     <button onclick="hideLoginForm()" class="text-gray-500 hover:text-gray-700">
@@ -204,14 +190,14 @@ function showNotification(message) {
                         <label class="block text-gray-700 text-sm font-medium mb-2">User ID</label>
                         <div class="relative">
                             <i class="ri-mail-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input type="text" required name="userId" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="Enter your user ID">
+                            <input type="text" required name="userId" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="Enter your user ID (23404-CM-196)">
                         </div>
                     </div>
                     <div class="mb-6">
                         <label class="block text-gray-700 text-sm font-medium mb-2">Password</label>
                         <div class="relative">
                             <i class="ri-lock-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input type="password" required name="password" class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="Enter your password">
+                            <input type="password" required name="password" class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="Enter your password (manoj123)">
                             <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600" onclick="togglePassword(this)">
                                 <i class="ri-eye-line"></i>
                             </button>
@@ -226,8 +212,6 @@ function showNotification(message) {
                     <button type="submit" class="w-full bg-primary text-white py-2 !rounded-button hover:bg-primary/90">Sign In</button>
                 </form>
             </div>
-
-            <!-- Staff Login Form -->
             <div id="staffForm" class="form-container bg-white p-8 rounded-lg shadow-lg">
                 <div class="flex items-center mb-6">
                     <button onclick="hideLoginForm()" class="text-gray-500 hover:text-gray-700">
@@ -240,14 +224,14 @@ function showNotification(message) {
                         <label class="block text-gray-700 text-sm font-medium mb-2">Staff ID</label>
                         <div class="relative">
                             <i class="ri-user-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input type="text" required name="userId" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="Enter your staff ID">
+                            <input type="text" required name="userId" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="Enter your staff ID (23404-CM-196)">
                         </div>
                     </div>
                     <div class="mb-6">
                         <label class="block text-gray-700 text-sm font-medium mb-2">Password</label>
                         <div class="relative">
                             <i class="ri-lock-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input type="password" required name="password" class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="Enter your password">
+                            <input type="password" required name="password" class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="Enter your password (kumar123)">
                             <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600" onclick="togglePassword(this)">
                                 <i class="ri-eye-line"></i>
                             </button>
@@ -265,5 +249,4 @@ function showNotification(message) {
         </div>
     </div>
 </body>
-
 </html>
